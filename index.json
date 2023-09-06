@@ -1,0 +1,593 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Open API Point Of Sales",
+        "version": "1.0.0",
+        "description": "Ini adalah open API point of sales"
+    },
+    "servers": [
+        {
+            "url": "http://pos.test/api"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Everything related to authentication"
+        },
+        {
+            "name": "Users",
+            "description": "Everything related to user"
+        },
+        {
+            "name": "Employee",
+            "description": "Everything related to employee"
+        },
+        {
+            "name": "Customer",
+            "description": "Everything related to customer"
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "summary": "Create a new users",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "confirm_password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "email",
+                                    "password",
+                                    "confirm_password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully"
+                    },
+                    "400": {
+                        "description": "Permintaan tidak valid"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Login",
+                "tags": [
+                    "Auth"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "default": "admin"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "default": "123456"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    },
+                    "400": {
+                        "description": "Permintaan tidak valid"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "summary": "Get all users",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Users retrieved successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Users not found"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "summary": "show  details user",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User retrieved successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/employee/view_all_employee": {
+            "get": {
+                "summary": "Get all employee",
+                "tags": [
+                    "Employee"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Employee retrieved successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Employee not found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/employee/show_detail_employee/{id}": {
+            "get": {
+                "summary": "Show detail employee",
+                "description": "Show detail employee by id",
+                "tags": [
+                    "Employee"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Employee retrieved successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Employee not found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/employee/search": {
+            "post": {
+                "summary": "Search employee",
+                "description": "Search employee by keyword first name and last name",
+                "tags": [
+                    "Employee"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "string",
+                                "properties": {
+                                    "keyword": {
+                                        "type": "string",
+                                        "default": "arip"
+                                    }
+                                },
+                                "required": [
+                                    "keyword"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Employee retrieved successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Employee not found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/employee/add": {
+            "post": {
+                "summary": "Add employee",
+                "description": "Add new employee",
+                "tags": [
+                    "Employee"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "default": "steve"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "default": "jobs"
+                                    },
+                                    "position": {
+                                        "type": "string",
+                                        "default": "user"
+                                    },
+                                    "supervisor_id": {
+                                        "type": "integer",
+                                        "default": 3
+                                    },
+                                    "phone": {
+                                        "type": "number",
+                                        "default": "082111111621"
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "default": 2
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Employee added successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Employee not found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/employee/update/{id}": {
+            "put": {
+                "summary": "Update employee",
+                "description": "Update employee by id",
+                "tags": [
+                    "Employee"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "default": "steve"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "default": "jobs"
+                                    },
+                                    "position": {
+                                        "type": "string",
+                                        "default": "user"
+                                    },
+                                    "supervisor_id": {
+                                        "type": "integer",
+                                        "default": 3
+                                    },
+                                    "phone": {
+                                        "type": "number",
+                                        "default": "082111111621"
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "default": 2
+                                    }
+                                }
+                            }
+                        },
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "default": "steve"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "default": "jobs"
+                                    },
+                                    "position": {
+                                        "type": "string",
+                                        "default": "user"
+                                    },
+                                    "supervisor_id": {
+                                        "type": "integer",
+                                        "default": 3
+                                    },
+                                    "phone": {
+                                        "type": "number",
+                                        "default": "082111111621"
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "default": 2
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Employee updated successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Employee not found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/customer/add_new_customer": {
+            "post": {
+                "summary": "Add new customer",
+                "description": "Add new customer",
+                "tags": [
+                    "Customer"
+                ],
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Customer"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Customer added successfully",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Customer not found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "Users": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "role": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "admin",
+                                "sales associate"
+                            ]
+                        },
+                        "default": [
+                            "admin"
+                        ]
+                    }
+                },
+                "required": [
+                    "username",
+                    "password",
+                    "email"
+                ]
+            },
+            "Customer": {
+                "type": "object",
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "default": "bunga"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "default": "anggun"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "default": "bunga@gmail.com"
+                    },
+                    "phone": {
+                        "type": "number",
+                        "default": "08654725512"
+                    },
+                    "address": {
+                        "type": "string",
+                        "default": "jakarta"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "SuccessResponse": {
+                "description": "Permintaan berhasil"
+            },
+            "NotFoundResponse": {
+                "description": "Data tidak ditemukan"
+            }
+        }
+    }
+}
