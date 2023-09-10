@@ -8,6 +8,9 @@
     "servers": [
         {
             "url": "http://pos.test/api"
+        },
+        {
+            "url": "https://pos.test/api"
         }
     ],
     "tags": [
