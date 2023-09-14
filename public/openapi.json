@@ -7,6 +7,9 @@
     },
     "servers": [
         {
+            "url": "https://openapi-pos.aripbudiman.com/api"
+        },
+        {
             "url": "http://pos.test/api"
         },
         {
